@@ -1,16 +1,15 @@
-import RelationItem from "./RelationItem";
+import RelationItem from './RelationItem';
 
-
-const ListAllReltions = (props) => {
+const ListAllRelations = (props) => {
   return (
     <div className="container">
       <h1>List all dependencies </h1>
 
       {props.data.map((element) => (
-        <RelationItem itemData={element} />
+        <RelationItem key={element.id} itemData={element} />
       ))}
     </div>
   );
 };
 
-export default ListAllReltions;
+export default ListAllRelations;

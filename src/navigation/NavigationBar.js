@@ -12,7 +12,6 @@ const NavigationBar = () => {
             </Link>
             <li className="nav-item">
               <Link
-                k
                 className="nav-link link-secondary"
                 aria-current="page"
                 to="/"
@@ -21,7 +20,6 @@ const NavigationBar = () => {
               </Link>
             </li>
             <li className="nav-item">
-              {" "}
               <Link className="nav-link link-secondary" to="/create-relation">
                 Create Relations
               </Link>

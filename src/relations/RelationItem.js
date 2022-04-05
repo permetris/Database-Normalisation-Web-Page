@@ -1,4 +1,4 @@
-import DependencyItem from "./DependenyItem";
+import DependencyItem from "./DependencyItem";
 
 const RelationItem = (props) => {
 
@@ -6,8 +6,11 @@ const RelationItem = (props) => {
     <div>
       <h2>Relation</h2>
           <p>{props.itemData.relations.map((element) => element + " ")}</p>
-          <h3>Dependencies</h3>
-          {props.itemData.dependencies.map(dependency => <DependencyItem dependency={dependency}/>)}
+      <h3>Dependencies</h3>
+      <ul>
+      {props.itemData.dependencies.map(dependency => <DependencyItem dependency={dependency}/>)}
+
+      </ul>
     </div>
   );
 };

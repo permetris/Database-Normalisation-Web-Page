@@ -1,9 +1,9 @@
 const DependencyItem = (props) => {
   return (
-    <p>
+    <li key={props.dependency.id}>
       {props.dependency.left.map((value) => value + " ")} defines:{" "}
       {props.dependency.right.map((value) => value + " ")}{" "}
-    </p>
+    </li>
   );
 };
 

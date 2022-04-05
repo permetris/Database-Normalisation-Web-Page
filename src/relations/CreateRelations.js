@@ -1,37 +1,35 @@
 import { React, useState } from "react";
-const data = [
-  {
-    id: Math.random() * 100,
-    relations: ["Ime", "Prezime", "Adresa"],
-    dependencies: [
-      { key: Math.random(), left: ["Ime"], right: ["Prezime"] },
-      { key: Math.random(), left: ["Ime"], right: ["Adresa"] },
-    ],
-  },
-];
+
 const CreateRelations = (props) => {
-  // const [leftValue, setLeftValue] = useState("");
-  // const [rightValue, setRightValue] = useState("");
-  const [attributes, setAttributes] = useState([0]);
+  const [leftValue, setLeftValue] = useState("");
+  const [rightValue, setRightValue] = useState("");
+  const [attributes, setAttributes] = useState("Unesi Atribut");
+  const [dependency, setDependency] = useState();
 
   const formSubmitHandler = (event) => {
     event.preventDefault();
     console.log("Radi");
-    props.data(data);
+    props.onSubmit();
   };
 
+  const addNewDependency = () => {
+    const newDependency = { left: leftValue, right: rightValue }
+    setDependency((previous) => {
+      return [newDependency, ...previous];
+    })
+  }
   const submitAttributes = (event) => {
     let newAttributes = event.target.value.trim().split(",");
     setAttributes(newAttributes);
     console.log(attributes);
   };
 
-  // const submitRightValue = (event) => {
-  //   setRightValue(event.target.value);
-  // };
-  // const submitLeftValue = (event) => {
-  //   setRightValue(event.target.value);
-  // };
+  const submitRightValue = (event) => {
+    setRightValue(event.target.value);
+  };
+  const submitLeftValue = (event) => {
+    setRightValue(event.target.value);
+  };
 
   return (
     <div className="container d-flex flex-column">
@@ -52,13 +50,6 @@ const CreateRelations = (props) => {
               Enter attributes separated by comma (,) signs.
             </span>
           </div>
-          <button
-            type="submit"
-            className="btn btn-primary"
-            id="attributeSubmitButton"
-          >
-            Submit
-          </button>
         </div>
 
         <div className="input-group mb-3">
@@ -68,14 +59,13 @@ const CreateRelations = (props) => {
             </label>
           </div>
           <select
-            // onChange={submitLeftValue}
+            onChange={submitLeftValue}
             className="custom-select w-25 form-control"
             id="inputGroupSelect01"
           >
-            <option defaultValue="choose">Choose...</option>
-            <option defaultValue="1">One</option>
-            <option defaultValue="2">Two</option>
-            <option defaultValue="3">Three</option>
+            {attributes.map(el => {
+              return <option key={el} value={el}>{ el}</option>
+            })}
           </select>
         </div>
         <p className="ml-5"> defines</p>
@@ -86,16 +76,29 @@ const CreateRelations = (props) => {
             </label>
           </div>
           <select
-            // onChange={submitRightValue}
+            onChange={submitRightValue}
             className="custom-select w-25 form-control"
-            id="inputGroupSelect01"
+            id="inputGroupSelect02"
           >
-            <option defaultValue="choose">Choose...</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+            {attributes.map(el => {
+              return <option key={el} value={el}>{ el}</option>
+            })}
           </select>
         </div>
+        <button
+          onClick={addNewDependency}
+          className="btn btn-primary"
+          id="attributeSubmitButton"
+        >
+          Add dependency
+        </button>
+        <button
+          type="submit"
+          className="btn btn-primary"
+          id="attributeSubmitButton"
+        >
+          Submit
+        </button> 
       </form>
     </div>
   );

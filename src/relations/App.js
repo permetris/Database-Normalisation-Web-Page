@@ -14,6 +14,14 @@ let DUMMY_DATA = [
       { key: Math.random(), left: ["Ime"], right: ["Adresa"] },
     ],
   },
+  {
+    id: 2,
+    relations: ["Ime", "Prezime", "Adresa"],
+    dependencies: [
+      { key: Math.random(), left: ["Ime"], right: ["Prezime"] },
+      { key: Math.random(), left: ["Ime"], right: ["Adresa"] },
+    ],
+  },
 ];
 const App = () => {
 
@@ -33,7 +41,7 @@ const App = () => {
         <Route path="/" element={<ListAllRelations data={relationSchema} />}></Route>
         <Route
           path="/create-relation"
-          element={<CreateRelations data={addNewData} />}
+          element={<CreateRelations onSubmit={addNewData} />}
         ></Route>
       </Routes>
     </BrowserRouter>

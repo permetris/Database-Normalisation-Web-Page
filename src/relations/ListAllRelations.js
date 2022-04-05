@@ -1,4 +1,4 @@
-import RelationItem from './RelationItem';
+import RelationItem from "./RelationItem";
 
 const ListAllRelations = (props) => {
   return (

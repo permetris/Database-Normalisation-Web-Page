@@ -3,24 +3,23 @@ import { React, useState } from "react";
 const CreateRelations = (props) => {
   const [leftValue, setLeftValue] = useState("");
   const [rightValue, setRightValue] = useState("");
-  const [attributes, setAttributes] = useState("Unesi Atribut");
+  const [attributes, setAttributes] = useState([]);
   const [dependency, setDependency] = useState();
 
   const formSubmitHandler = (event) => {
     event.preventDefault();
     console.log("Radi");
-    props.onSubmit();
+    props.addNewData();
   };
 
   const addNewDependency = () => {
-    const newDependency = { left: leftValue, right: rightValue }
+    const newDependency = { left: leftValue, right: rightValue };
     setDependency((previous) => {
       return [newDependency, ...previous];
-    })
-  }
+    });
+  };
   const submitAttributes = (event) => {
-    let newAttributes = event.target.value.trim().split(",");
-    setAttributes(newAttributes);
+    setAttributes(event.target.value.trim().split(","));
     console.log(attributes);
   };
 
@@ -63,8 +62,12 @@ const CreateRelations = (props) => {
             className="custom-select w-25 form-control"
             id="inputGroupSelect01"
           >
-            {attributes.map(el => {
-              return <option key={el} value={el}>{ el}</option>
+            {attributes.map((el) => {
+              return (
+                <option key={el} value={el}>
+                  {el}
+                </option>
+              );
             })}
           </select>
         </div>
@@ -77,11 +80,16 @@ const CreateRelations = (props) => {
           </div>
           <select
             onChange={submitRightValue}
-            className="custom-select w-25 form-control"
+            className="form-select w-25"
+            multiple
             id="inputGroupSelect02"
           >
-            {attributes.map(el => {
-              return <option key={el} value={el}>{ el}</option>
+            {attributes.map((el) => {
+              return (
+                <option key={el} value={el}>
+                  {el}
+                </option>
+              );
             })}
           </select>
         </div>
@@ -92,13 +100,14 @@ const CreateRelations = (props) => {
         >
           Add dependency
         </button>
+        <br></br>
         <button
           type="submit"
           className="btn btn-primary"
           id="attributeSubmitButton"
         >
           Submit
-        </button> 
+        </button>
       </form>
     </div>
   );

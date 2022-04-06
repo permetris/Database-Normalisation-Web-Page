@@ -7,7 +7,15 @@ import NavigationBar from "./navigation/NavigationBar";
 
 const data = [
   {
-    id: Math.random()*100,
+    id: 2,
+    relations: ["Ime", "Prezime", "Adresa"],
+    dependencies: [
+      { left: ["Ime"], right: ["Prezime"] },
+      { left: ["Ime"], right: ["Adresa"] },
+    ],
+  },
+  {
+    id: 2,
     relations: ["Ime", "Prezime", "Adresa"],
     dependencies: [
       { left: ["Ime"], right: ["Prezime"] },
@@ -18,7 +26,7 @@ const data = [
 
 const addNewData = (newData) => {
   //TODO
-}
+};
 
 function App() {
   return (
@@ -26,7 +34,10 @@ function App() {
       <NavigationBar />
       <Routes>
         <Route path="/" element={<ListAllReltions data={data} />}></Route>
-        <Route path="/create-relation" addNewData={addNewData}  element={<CreateRelation />}></Route>
+        <Route
+          path="/create-relation"
+          element={<CreateRelation addNewData={addNewData} />}
+        ></Route>
       </Routes>
     </BrowserRouter>
   );

@@ -1,6 +1,7 @@
 import RelationItem from "./RelationItem";
 
 const ListAllRelations = (props) => {
+  console.log(props.data);
   return (
     <div className="container">
       <h1>List all dependencies </h1>

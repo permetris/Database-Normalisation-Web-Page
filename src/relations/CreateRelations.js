@@ -4,7 +4,7 @@ import CreateNewDependency from "./CreateNewDependency";
 
 const CreateRelations = (props) => {
   const [attributes, setAttributes] = useState([]);
-  const [dependencies, setDependencies] = useState([]);
+  const [dependencies, setDependencies] = useState();
   const [showAttributesInput, setShowAttributesInput] = useState(false);
 
   const formSubmitHandler = (event) => {

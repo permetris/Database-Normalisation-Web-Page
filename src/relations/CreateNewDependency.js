@@ -1,7 +1,9 @@
+import DependencyItem from "./DependencyItem";
 import { useState, React } from "react";
 const CreateNewDependency = (props) => {
   const [leftValue, setLeftValue] = useState([]);
   const [rightValue, setRightValue] = useState([]);
+  const [dependencies, setDependencies] = useState([]);
 
   const attributes = ["-", ...props.attributes];
 
@@ -15,13 +17,20 @@ const CreateNewDependency = (props) => {
 
   const addNewDependency = (event) => {
     event.preventDefault();
-    const newDependency = { left: leftValue, right: rightValue };
-    props.addDependency(newDependency);
+    const newDependency = {
+      id: Math.random(),
+      left: leftValue,
+      right: rightValue,
+    };
+
+    setDependencies((prev) => {
+      return [...prev, newDependency];
+    });
+    props.addDependency(dependencies);
   };
 
   return (
-    <div>
-      {" "}
+    <div className="d-flex flex-column">
       <div className="d-flex flex-row justify-content-evenly align-items-center">
         <div className="input-group mb-3 w-25">
           <div className="input-group-prepend">
@@ -67,11 +76,19 @@ const CreateNewDependency = (props) => {
       </div>
       <button
         onClick={addNewDependency}
-        className="btn btn-primary"
+        className="btn btn-primary mb-3 justify-self-center"
         id="attributeSubmitButton"
       >
         Add dependency
       </button>
+      <div className="card p2">
+        <div className="card-header">Dependencies</div>
+        <ul className="list-group-flush">
+          {dependencies.map((dependency) => (
+            <DependencyItem dependency={dependencies} />
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

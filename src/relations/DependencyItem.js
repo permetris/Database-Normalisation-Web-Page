@@ -1,7 +1,7 @@
 const DependencyItem = (props) => {
   return (
-    <li key={props.dependency.id}>
-      {props.dependency.left.map((value) => value + " ")} defines:
+    <li className="list-group-item" key={props.dependency.id}>
+      {props.left.map((value) => value + " ")} -&gt; 
       {props.dependency.right.map((value) => value + " ")}
     </li>
   );

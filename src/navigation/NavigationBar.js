@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const NavigationBar = () => {
   return (
-    <div>
+    <div className="sticky-md-top">
       <nav className="navbar navbar-dark navbar-expand-lg bg-dark text-white">
         <div className="collapse navbar-collapse container">
           <ul className="nav mr-auto">

@@ -8,18 +8,24 @@ import NavigationBar from "./navigation/NavigationBar";
 const DUMMY_DATA = [
   {
     id: 1,
-    attributes: ["Ime", "Prezime", "Adresa"],
+    attributes: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
     dependencies: [
-      { left: ["Ime"], right: ["Prezime"] },
-      { left: ["Ime"], right: ["Adresa"] },
+      { left: ["A"], right: ["B"] },
+      { left: ["B"], right: ["C"] },
+      { left: ["A"], right: ["G"] },
+      { left: ["A"], right: ["C"] },
+      { left: ["E"], right: ["I"] },
     ],
   },
   {
     id: 2,
-    attributes: ["Ime", "nesto", "Adresa"],
+    attributes: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
     dependencies: [
-      { left: ["Adresa"], right: ["Prezime"] },
-      { left: ["Ime"], right: ["Adresa"] },
+      { left: ["A"], right: ["B"] },
+      { left: ["B"], right: ["C"] },
+      { left: ["A"], right: ["G"] },
+      { left: ["B"], right: ["C"] },
+      { left: ["B"], right: ["C"] },
     ],
   },
 ];
@@ -33,16 +39,18 @@ function App() {
     });
   };
   return (
-    <BrowserRouter>
-      <NavigationBar />
-      <Routes>
-        <Route path="/" element={<ListAllReltions data={data} />}></Route>
-        <Route
-          path="/create-relation"
-          element={<CreateRelation addNewData={addNewData} />}
-        ></Route>
-      </Routes>
-    </BrowserRouter>
+    <div className="backc">
+      <BrowserRouter>
+        <NavigationBar />
+        <Routes>
+          <Route path="/" element={<ListAllReltions data={data} />}></Route>
+          <Route
+            path="/create-relation"
+            element={<CreateRelation addNewData={addNewData} />}
+          ></Route>
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 

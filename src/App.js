@@ -1,14 +1,14 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import { useState, React } from "react";
 import CreateRelation from "./relations/CreateRelations";
 import ListAllReltions from "./relations/ListAllRelations";
 import "bootstrap/dist/css/bootstrap.css";
 import NavigationBar from "./navigation/NavigationBar";
 
-const data = [
+const DUMMY_DATA = [
   {
-    id: 2,
-    relations: ["Ime", "Prezime", "Adresa"],
+    id: 1,
+    attributes: ["Ime", "Prezime", "Adresa"],
     dependencies: [
       { left: ["Ime"], right: ["Prezime"] },
       { left: ["Ime"], right: ["Adresa"] },
@@ -16,19 +16,22 @@ const data = [
   },
   {
     id: 2,
-    relations: ["Ime", "Prezime", "Adresa"],
+    attributes: ["Ime", "nesto", "Adresa"],
     dependencies: [
-      { left: ["Ime"], right: ["Prezime"] },
+      { left: ["Adresa"], right: ["Prezime"] },
       { left: ["Ime"], right: ["Adresa"] },
     ],
   },
 ];
 
-const addNewData = (newData) => {
-  //TODO
-};
-
 function App() {
+  const [data, setData] = useState(DUMMY_DATA);
+  const addNewData = (newData) => {
+    console.log("Isto to u appjs", newData, "Svi podaci", data);
+    setData((previous) => {
+      return [newData, ...previous];
+    });
+  };
   return (
     <BrowserRouter>
       <NavigationBar />

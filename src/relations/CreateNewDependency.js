@@ -22,11 +22,11 @@ const CreateNewDependency = (props) => {
       left: leftValue,
       right: rightValue,
     };
+    console.log("ovo trenutno debugas majmune", newDependency);
 
     setDependencies((prev) => {
       return [...prev, newDependency];
     });
-    props.addDependency(dependencies);
   };
 
   return (
@@ -52,7 +52,7 @@ const CreateNewDependency = (props) => {
             })}
           </select>
         </div>
-        <p className="ml-5"> defines:</p>
+        <p className="ml-5 fw-light fs-1">-&gt;</p>
         <div className="input-group mb-3 w-25 ">
           <div className="input-group-prepend">
             <label className="input-group-text" htmlFor="inputGroupSelect01">
@@ -85,7 +85,7 @@ const CreateNewDependency = (props) => {
         <div className="card-header">Dependencies</div>
         <ul className="list-group-flush">
           {dependencies.map((dependency) => (
-            <DependencyItem dependency={dependencies} />
+            <DependencyItem dependency={dependency} />
           ))}
         </ul>
       </div>

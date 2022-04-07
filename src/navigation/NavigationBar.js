@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 
 const NavigationBar = () => {
   return (
-    <div className="sticky-md-top">
-      <nav className="navbar navbar-dark navbar-expand-lg bg-dark text-white">
+    <div className="sticky-xl-top">
+      <nav className="navbar sticky-xl-top navbar-dark navbar-expand-lg bg-dark text-white">
         <div className="collapse navbar-collapse container">
           <ul className="nav mr-auto">
             <Link className="navbar-brand" to="/">

@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState, React } from "react";
-import CreateRelation from "./relations/CreateRelations";
-import ListAllReltions from "./relations/ListAllRelations";
+import CreateRelation from "./relations/relation-input/CreateRelations";
+import ListAllReltions from "./relations/relation-listing/ListAllRelations";
 import "bootstrap/dist/css/bootstrap.css";
 import NavigationBar from "./navigation/NavigationBar";
 

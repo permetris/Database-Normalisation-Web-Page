@@ -1,6 +1,6 @@
 import { React, useState } from "react";
-import DependencyItem from "./DependencyItem";
-import CreateNewDependency from "./CreateNewDependency";
+import InputAttributes from "./InputAttributes";
+import InputNewDependency from "./InputNewDependency";
 
 const CreateRelations = (props) => {
   const [attributes, setAttributes] = useState([]);
@@ -37,42 +37,22 @@ const CreateRelations = (props) => {
   return (
     <div className="container d-flex flex-column">
       <h1 className="mt-4">CreateRelation</h1>
-      <form onSubmit={formSubmitHandler}>
-        <div className="form-floating mb-3">
-          <input
-            value={attributes}
-            onChange={submitAttributes}
-            type="text"
-            className="form-control"
-            id="floatingInput"
-            placeholder="Attribute"
-            disabled={showAttributesInput}
-          ></input>
-          <label htmlFor="floatingInput">Relationa schema</label>
-          <div className="col-auto">
-            <span id="attributesHelpInline" className="form-text">
-              Enter attributes separated by comma (,) signs.
-            </span>
-          </div>
-          <button
-            className="btn btn-primary"
-            onClick={lockRelationInput}
-            type="button"
-          >
-            Lock
-          </button>
-        </div>
+      <form className="card shadow-lg p-4"onSubmit={formSubmitHandler}>
+        <InputAttributes
+          submitAttributes={submitAttributes}
+          showAttributesInput={showAttributesInput}
+          lockRelationInput={lockRelationInput}
+          attributes={attributes}
+        />
         {showAttributesInput && (
-          <CreateNewDependency
+          <InputNewDependency
             addDependency={getAddedDependency}
             attributes={attributes}
           />
         )}
-
-        <br></br>
         <button
           type="submit"
-          className="btn btn-primary"
+          className="btn btn-primary mt-3"
           id="attributeSubmitButton"
         >
           Submit

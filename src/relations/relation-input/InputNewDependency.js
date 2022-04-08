@@ -1,9 +1,10 @@
-import DependencyItem from "../relation-listing/DependencyItem";
 import { useState, React } from "react";
+import PreviewDependencies from "./PreviewDependencies";
 const InputNewDependency = (props) => {
-  const [leftValue, setLeftValue] = useState([]);
-  const [rightValue, setRightValue] = useState([]);
+  const [leftValue, setLeftValue] = useState();
+  const [rightValue, setRightValue] = useState();
   const [dependencies, setDependencies] = useState([]);
+  const [showPreview, setShowPreview] = useState(false);
 
   const attributes = ["-", ...props.attributes];
 
@@ -22,15 +23,14 @@ const InputNewDependency = (props) => {
       left: leftValue,
       right: rightValue,
     };
-    console.log("ovo trenutno debugas majmune", newDependency);
-
+    setShowPreview(true);
     setDependencies((prev) => {
       return [...prev, newDependency];
     });
   };
 
   return (
-    <div className="d-flex flex-column justify-content-center">
+    <div className="d-flex flex-column justify-content-center mt-5">
       <div className="d-flex flex-row justify-content-evenly align-items-center">
         <div className="input-group mb-3 w-25">
           <div className="input-group-prepend">
@@ -74,13 +74,15 @@ const InputNewDependency = (props) => {
           </select>
         </div>
       </div>
+      {showPreview && <PreviewDependencies dependencies={dependencies}/>}
       <button
         onClick={addNewDependency}
-        className="btn btn-primary w-25 align-self-center"
+        className="btn btn-primary w-25 align-self-center mt-4"
         id="attributeSubmitButton"
       >
         Add dependency
       </button>
+
       
 
     </div>

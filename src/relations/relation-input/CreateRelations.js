@@ -1,6 +1,7 @@
 import { React, useState } from "react";
 import InputAttributes from "./InputAttributes";
 import InputNewDependency from "./InputNewDependency";
+import Card from "../../card/Card";
 
 const CreateRelations = (props) => {
   const [attributes, setAttributes] = useState([]);
@@ -35,29 +36,31 @@ const CreateRelations = (props) => {
   };
 
   return (
-    <div className="container d-flex flex-column">
-      <h1 className="mt-4">CreateRelation</h1>
-      <form className="card shadow-lg p-4"onSubmit={formSubmitHandler}>
-        <InputAttributes
-          submitAttributes={submitAttributes}
-          showAttributesInput={showAttributesInput}
-          lockRelationInput={lockRelationInput}
-          attributes={attributes}
-        />
-        {showAttributesInput && (
-          <InputNewDependency
-            addDependency={getAddedDependency}
+    <div className="container">
+      <Card className="min-vh-100" >
+        <h1 className="fw-light mt-4 mb-3 ">Create relation</h1>
+        <form className="card shadow-lg p-4" onSubmit={formSubmitHandler}>
+          <InputAttributes
+            submitAttributes={submitAttributes}
+            showAttributesInput={showAttributesInput}
+            lockRelationInput={lockRelationInput}
             attributes={attributes}
           />
-        )}
-        <button
-          type="submit"
-          className="btn btn-primary mt-3"
-          id="attributeSubmitButton"
-        >
-          Submit
-        </button>
-      </form>
+          {showAttributesInput && (
+            <InputNewDependency
+              addDependency={getAddedDependency}
+              attributes={attributes}
+            />
+          )}
+          <button
+            type="submit"
+            className="btn btn-primary mt-3"
+            id="attributeSubmitButton"
+          >
+            Submit
+          </button>
+        </form>
+      </Card>
     </div>
   );
 };

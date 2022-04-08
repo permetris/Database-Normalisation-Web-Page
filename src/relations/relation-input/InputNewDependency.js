@@ -16,8 +16,8 @@ const InputNewDependency = (props) => {
     setLeftValue(event.target.value);
   };
 
-  const addNewDependency = (event) => {
-    event.preventDefault();
+  const addNewDependency = () => {
+    
     const newDependency = {
       id: Math.random(),
       left: leftValue,

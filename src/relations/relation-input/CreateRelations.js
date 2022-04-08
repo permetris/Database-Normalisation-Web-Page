@@ -5,7 +5,6 @@ import Card from "../../card/Card";
 
 const CreateRelations = (props) => {
   const [attributes, setAttributes] = useState([]);
-  const [dependencies, setDependencies] = useState();
   const [showAttributesInput, setShowAttributesInput] = useState(false);
 
   const formSubmitHandler = (event) => {
@@ -13,7 +12,7 @@ const CreateRelations = (props) => {
     const newEntry = {
       id: Math.random(),
       attributes: attributes,
-      dependencies: dependencies,
+      dependencies: props.dependencies,
     };
     console.log("Novi unos u parentu ", newEntry);
     props.addNewData(newEntry);
@@ -22,13 +21,7 @@ const CreateRelations = (props) => {
     setShowAttributesInput(true);
   };
 
-  const getAddedDependency = (newDependency) => {
-    console.log(newDependency);
-    setDependencies((previous) => {
-      return [newDependency, ...previous];
-    });
-    console.log(dependencies);
-  };
+ 
 
   const submitAttributes = (event) => {
     setAttributes(event.target.value.trim().split(","));
@@ -48,7 +41,7 @@ const CreateRelations = (props) => {
           />
           {showAttributesInput && (
             <InputNewDependency
-              addDependency={getAddedDependency}
+              addDependency={props.getAddedDependency}
               attributes={attributes}
             />
           )}

@@ -13,7 +13,7 @@ const DUMMY_DATA = [
       { left: "A", right: "B" },
       { left: "B", right: "C" },
       { left: "A", right: "G" },
-      { left: "A", right:"C" },
+      { left: "A", right: "C" },
       { left: "E", right: "I" },
     ],
   },
@@ -38,6 +38,11 @@ function App() {
       return [newData, ...previous];
     });
   };
+  const getAddedDependency = (newDependency) => {
+    setData((previous) => {
+      return [newDependency, ...previous];
+    });
+  };
   return (
     <BrowserRouter>
       <NavigationBar />
@@ -45,7 +50,13 @@ function App() {
         <Route path="/" element={<ListAllReltions data={data} />}></Route>
         <Route
           path="/create-relation"
-          element={<CreateRelation addNewData={addNewData} />}
+          element={
+            <CreateRelation
+              getAddedDependency={getAddedDependency}
+              dependencies={data}
+              addNewData={addNewData}
+            />
+          }
         ></Route>
       </Routes>
     </BrowserRouter>

@@ -16,17 +16,21 @@ const InputNewDependency = (props) => {
     setLeftValue(event.target.value);
   };
 
-  const addNewDependency = (event) => {
-    event.preventDefault();
+  const addNewDependency = () => {
     const newDependency = {
       id: Math.random(),
       left: leftValue,
       right: rightValue,
     };
-    setShowPreview(true);
-    setDependencies((prev) => {
-      return [...prev, newDependency];
+    setDependencies((previousData) => {
+      return [
+        ...previousData,
+        newDependency
+      ];
     });
+    console.log(dependencies);
+    setShowPreview(true);
+    props.addDependency(dependencies);
   };
 
   return (
@@ -45,7 +49,7 @@ const InputNewDependency = (props) => {
           >
             {attributes.map((el) => {
               return (
-                <option key={el} value={el}>
+                <option key={el} defaultValue={el}>
                   {el}
                 </option>
               );
@@ -66,7 +70,7 @@ const InputNewDependency = (props) => {
           >
             {attributes.map((el) => {
               return (
-                <option key={el + "1"} value={el}>
+                <option key={el + "1"} defaultValue={el}>
                   {el}
                 </option>
               );
@@ -74,7 +78,7 @@ const InputNewDependency = (props) => {
           </select>
         </div>
       </div>
-      {showPreview && <PreviewDependencies dependencies={dependencies}/>}
+      {showPreview && <PreviewDependencies dependencies={props.dependencies} />}
       <button
         onClick={addNewDependency}
         className="btn btn-primary w-25 align-self-center mt-4"
@@ -82,9 +86,6 @@ const InputNewDependency = (props) => {
       >
         Add dependency
       </button>
-
-      
-
     </div>
   );
 };

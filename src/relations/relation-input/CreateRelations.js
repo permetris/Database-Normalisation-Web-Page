@@ -20,13 +20,12 @@ const CreateRelations = (props) => {
   };
   const lockRelationInput = () => {
     setShowAttributesInput(true);
+    console.log(attributes);
   };
 
   const getAddedDependency = (newDependency) => {
     console.log(newDependency);
-    setDependencies((previous) => {
-      return [newDependency, ...previous];
-    });
+    setDependencies(newDependency);
     console.log(dependencies);
   };
 
@@ -36,8 +35,8 @@ const CreateRelations = (props) => {
   };
 
   return (
-    <div className="container">
-      <Card className="min-vh-100" >
+    
+      <Card className="min-vh-100 container">
         <h1 className="fw-light mt-4 mb-3 ">Create relation</h1>
         <form className="card shadow-lg p-4" onSubmit={formSubmitHandler}>
           <InputAttributes
@@ -49,7 +48,8 @@ const CreateRelations = (props) => {
           {showAttributesInput && (
             <InputNewDependency
               addDependency={getAddedDependency}
-              attributes={attributes}
+            attributes={attributes}
+            dependencies={dependencies}
             />
           )}
           <button
@@ -61,7 +61,7 @@ const CreateRelations = (props) => {
           </button>
         </form>
       </Card>
-    </div>
+    
   );
 };
 

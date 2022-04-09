@@ -26,7 +26,9 @@ const CreateRelations = (props) => {
   // Passed into InputAttributes copmonent to lock input, and display dependency selection
   const onLockRelationInput = (newAttributes) => {
     setShowAttributesInput(true);
+    console.log(attributes);
   };
+
 
   // Passed into InputNewDependency component to submit new values
   const submitNewDependency = (newDependency) => {
@@ -61,6 +63,7 @@ const CreateRelations = (props) => {
         </button>
       </form>
     </Card>
+
   );
 };
 

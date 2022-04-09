@@ -10,34 +10,68 @@ const DUMMY_DATA = [
     id: 1,
     attributes: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
     dependencies: [
-      { left: "A", right: "B" },
-      { left: "B", right: "C" },
-      { left: "A", right: "G" },
-      { left: "A", right:"C" },
-      { left: "E", right: "I" },
+      { id: 1, left: ["A"], right: ["B"] },
+      { id: 2, left: ["B"], right: ["C"] },
+      { id: 3, left: ["A"], right: ["G"] },
+      { id: 4, left: ["A"], right: ["C"] },
+      { id: 5, left: ["E"], right: ["I"] },
     ],
   },
   {
     id: 2,
     attributes: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
     dependencies: [
-      { left: "A", right: "B" },
-      { left: "B", right: "C" },
-      { left: "A", right: "G" },
-      { left: "B", right: "C" },
-      { left: "B", right: "C" },
+      { id: 1, left: ["A"], right: ["B"] },
+      { id: 2, left: ["B"], right: ["C"] },
+      { id: 3, left: ["A"], right: ["G"] },
+      { id: 4, left: ["B"], right: ["C"] },
+      { id: 5, left: ["B"], right: ["C"] },
+    ],
+  },
+  {
+    id: 3,
+    attributes: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
+    dependencies: [
+      { id: 1, left: ["A"], right: ["B"] },
+      { id: 2, left: ["B"], right: ["C"] },
+      { id: 3, left: ["A"], right: ["G"] },
+      { id: 4, left: ["B"], right: ["C"] },
+      { id: 5, left: ["B"], right: ["C"] },
+    ],
+  },
+  {
+    id: 4,
+    attributes: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
+    dependencies: [
+      { id: 1, left: ["D", "I"], right: ["B"] },
+      { id: 2, left: ["A", "J"], right: ["F"] },
+      { id: 3, left: ["G", "B"], right: ["F", "J", "E"] },
+      { id: 4, left: ["A", "J"], right: ["H", "D"] },
+      { id: 5, left: ["I"], right: ["C", "D"] },
+    ],
+  },
+  {
+    id: 5,
+    attributes: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
+    dependencies: [
+      { id: 1, left: ["A"], right: ["B"] },
+      { id: 2, left: ["B"], right: ["C"] },
+      { id: 3, left: ["A"], right: ["G"] },
+      { id: 4, left: ["B"], right: ["C"] },
+      { id: 5, left: ["B"], right: ["C"] },
     ],
   },
 ];
 
 function App() {
   const [data, setData] = useState(DUMMY_DATA);
-  const addNewData = (newData) => {
-    console.log("Isto to u appjs", newData, "Svi podaci", data);
+
+  const addNewRelationSchema = (newRelation) => {
     setData((previous) => {
-      return [newData, ...previous];
+      return [newRelation, ...previous];
     });
   };
+
   return (
     <BrowserRouter>
       <NavigationBar />
@@ -45,7 +79,9 @@ function App() {
         <Route path="/" element={<ListAllReltions data={data} />}></Route>
         <Route
           path="/create-relation"
-          element={<CreateRelation addNewData={addNewData} />}
+          element={
+            <CreateRelation addNewRelationSchema={addNewRelationSchema} />
+          }
         ></Route>
       </Routes>
     </BrowserRouter>

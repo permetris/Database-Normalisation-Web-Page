@@ -13,7 +13,7 @@ const RelationItem = (props) => {
         <div className="card-header">Dependencies</div>
         <ul className="list-group-flush">
           {props.itemData.dependencies.map((dependency) => (
-            <DependencyItem dependency={dependency} />
+            <DependencyItem key={ dependency.id} dependency={dependency} />
           ))}
         </ul>
       </div>

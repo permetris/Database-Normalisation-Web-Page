@@ -8,7 +8,7 @@ const PreviewDependencies = (props) => {
         <div className="card-header">Dependencies</div>
         <ul className="list-group-flush">
           {props.dependencies.map((dependency) => (
-            <DependencyItem dependency={dependency} />
+            <DependencyItem key={props.dependencies.id} dependency={dependency} />
           ))}
         </ul>
       </div>
@@ -16,3 +16,4 @@ const PreviewDependencies = (props) => {
   );
 };
 export default PreviewDependencies;
+  

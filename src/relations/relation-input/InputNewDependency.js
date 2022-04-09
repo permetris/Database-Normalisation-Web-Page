@@ -3,34 +3,39 @@ import PreviewDependencies from "./PreviewDependencies";
 const InputNewDependency = (props) => {
   const [leftValue, setLeftValue] = useState();
   const [rightValue, setRightValue] = useState();
-  const [dependencies, setDependencies] = useState([]);
   const [showPreview, setShowPreview] = useState(false);
 
-  const attributes = ["-", ...props.attributes];
+  const attributes = ["Choose", ...props.attributes];
 
-  const submitRightValue = (event) => {
-    setRightValue(event.target.value);
+  const submitValue = (event) => {
+    let result = [];
+    let options = event.target.options;
+    let opt;
+
+    for (let i = 0, iLen = options.length; i < iLen; i++) {
+      opt = options[i];
+
+      if (opt.selected) {
+        result.push(opt.value || opt.text);
+      }
+    }
+
+    event.target.id === "left" ? setLeftValue(result) : setRightValue(result);
   };
 
-  const submitLeftValue = (event) => {
-    setLeftValue(event.target.value);
-  };
 
-  const addNewDependency = () => {
+  const addDependency = (event) => {
+
     const newDependency = {
       id: Math.random(),
       left: leftValue,
       right: rightValue,
     };
-    setDependencies((previousData) => {
-      return [
-        ...previousData,
-        newDependency
-      ];
-    });
-    console.log(dependencies);
+
     setShowPreview(true);
-    props.addDependency(dependencies);
+    props.submitNewDependency(newDependency);
+    event.preventDefault();
+
   };
 
   return (
@@ -43,9 +48,10 @@ const InputNewDependency = (props) => {
             </label>
           </div>
           <select
-            onChange={submitLeftValue}
+            onChange={submitValue}
             className="form-select w-25 form-control"
-            id="inputGroupSelect01"
+            id="left"
+            multiple
           >
             {attributes.map((el) => {
               return (
@@ -64,25 +70,24 @@ const InputNewDependency = (props) => {
             </label>
           </div>
           <select
-            onChange={submitRightValue}
-            className="form-select w-25"
-            id="inputGroupSelect02"
+            onChange={submitValue}
+            className="form-select"
+            id="right"
+            multiple
           >
             {attributes.map((el) => {
-              return (
-                <option key={el + "1"} defaultValue={el}>
-                  {el}
-                </option>
-              );
+
+              return <option value={el}>{el}</option>;
+
             })}
           </select>
         </div>
       </div>
       {showPreview && <PreviewDependencies dependencies={props.dependencies} />}
       <button
-        onClick={addNewDependency}
+        type="button"
+        onClick={addDependency}
         className="btn btn-primary w-25 align-self-center mt-4"
-        id="attributeSubmitButton"
       >
         Add dependency
       </button>

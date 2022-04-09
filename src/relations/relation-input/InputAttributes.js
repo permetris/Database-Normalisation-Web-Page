@@ -9,7 +9,7 @@ const InputAttributes = (props) => {
           type="text"
           className="form-control"
           id="floatingInput"
-          placeholder="Attribute"
+          placeholder="Attributes"
           disabled={props.showAttributesInput}
         ></input>
         <label htmlFor="floatingInput">Relationa schema</label>

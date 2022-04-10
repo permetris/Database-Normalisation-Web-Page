@@ -5,10 +5,15 @@
 //   while (true) {
 //     for (let i = 0; i < dependenciesN.length; i++) {
 //       if (key.includes(...dependenciesN[i].left)) {
+//         for (let value of dependenciesN[i].right) {
+//           if (!key.includes(value)) {
+//             key.push(value);
+//           }
+//         }
 //         bracket.push(...dependenciesN[i].right);
 
 //         dependenciesN.splice(i, 1);
-//           console.log(bracket);
+//         console.log(bracket);
 //         break;
 //       }
 //     }
@@ -18,57 +23,57 @@
 // };
 
 const CalculateKey = (schema) => {
-    const attributes = schema.attributes.map((el) => {
-        return { value: el, left: false, right: false };
-    });
-    const dependencies = schema.dependencies;
+  const attributes = schema.attributes.map((el) => {
+    return { value: el, left: false, right: false };
+  });
+  const dependencies = schema.dependencies;
 
-    let onRightSide = [];
-    let onLeftSide = [];
-    let onBothSides = [];
-    let notInDependencies = [];
-    let key = [];
+  let onRightSide = [];
+  let onLeftSide = [];
+  let onBothSides = [];
+  let notInDependencies = [];
+  let key = [];
 
-    for (let attribute of attributes) {
-        for (let dependency of dependencies) {
-            for (let leftValue of dependency.left) {
-                if (attribute.value === leftValue) {
-                    attribute.left = true;
-                }
-            }
-            for (let rightValue of dependency.right) {
-                if (attribute.value === rightValue) {
-                    attribute.right = true;
-                }
-            }
+  for (let attribute of attributes) {
+    for (let dependency of dependencies) {
+      for (let leftValue of dependency.left) {
+        if (attribute.value === leftValue) {
+          attribute.left = true;
         }
-    }
-
-    for (let attribute of attributes) {
-        if (attribute.left === false && attribute.right === false) {
-            notInDependencies.push(attribute.value);
-        } else if (attribute.left === false && attribute.right === true) {
-            onRightSide.push(attribute.value);
-        } else if (attribute.left === true && attribute.right === false) {
-            onLeftSide.push(attribute.value);
-        } else {
-            onBothSides.push(attributes.value);
+      }
+      for (let rightValue of dependency.right) {
+        if (attribute.value === rightValue) {
+          attribute.right = true;
         }
+      }
     }
+  }
 
-    key.push(...onLeftSide, ...notInDependencies);
-    return key;
-    //   if (isKey(key, schema.attributes, dependencies)) {
-    //     return key;
-    //   }
+  for (let attribute of attributes) {
+    if (attribute.left === false && attribute.right === false) {
+      notInDependencies.push(attribute.value);
+    } else if (attribute.left === false && attribute.right === true) {
+      onRightSide.push(attribute.value);
+    } else if (attribute.left === true && attribute.right === false) {
+      onLeftSide.push(attribute.value);
+    } else {
+      onBothSides.push(attributes.value);
+    }
+  }
 
-    //   for (let attribute of onBothSides) {
-    //     key.push(attribute);
-    //     if (isKey(key, schema.attributes, dependencies)) {
-    //       return key;
-    //     }
-    //   }
-    // };
+  key.push(...onLeftSide, ...notInDependencies);
+  return key;
+  //   if (isKey(key, schema.attributes, dependencies)) {
+  //     return key;
+  //   }
+
+  //   for (let attribute of onBothSides) {
+  //     key.push(attribute);
+  //     if (isKey(key, schema.attributes, dependencies)) {
+  //       return key;
+  //     }
+  //   }
+  // };
 };
 
 export default CalculateKey;

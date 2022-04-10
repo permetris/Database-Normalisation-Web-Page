@@ -7,39 +7,6 @@ import NavigationBar from "./navigation/NavigationBar";
 
 const DUMMY_DATA = [
   {
-    id: 1,
-    attributes: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
-    dependencies: [
-      { id: 1, left: ["A"], right: ["B"] },
-      { id: 2, left: ["B"], right: ["C"] },
-      { id: 3, left: ["A"], right: ["G"] },
-      { id: 4, left: ["A"], right: ["C"] },
-      { id: 5, left: ["E"], right: ["I"] },
-    ],
-  },
-  {
-    id: 2,
-    attributes: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
-    dependencies: [
-      { id: 1, left: ["A"], right: ["B"] },
-      { id: 2, left: ["B"], right: ["C"] },
-      { id: 3, left: ["A"], right: ["G"] },
-      { id: 4, left: ["B"], right: ["C"] },
-      { id: 5, left: ["B"], right: ["C"] },
-    ],
-  },
-  {
-    id: 3,
-    attributes: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
-    dependencies: [
-      { id: 1, left: ["A"], right: ["B"] },
-      { id: 2, left: ["B"], right: ["C"] },
-      { id: 3, left: ["A"], right: ["G"] },
-      { id: 4, left: ["B"], right: ["C"] },
-      { id: 5, left: ["B"], right: ["C"] },
-    ],
-  },
-  {
     id: 4,
     attributes: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
     dependencies: [
@@ -48,17 +15,18 @@ const DUMMY_DATA = [
       { id: 3, left: ["G", "B"], right: ["F", "J", "E"] },
       { id: 4, left: ["A", "J"], right: ["H", "D"] },
       { id: 5, left: ["I"], right: ["C", "D"] },
-    ],
+    ],  
   },
+
   {
     id: 5,
     attributes: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
     dependencies: [
-      { id: 1, left: ["A"], right: ["B"] },
-      { id: 2, left: ["B"], right: ["C"] },
-      { id: 3, left: ["A"], right: ["G"] },
-      { id: 4, left: ["B"], right: ["C"] },
-      { id: 5, left: ["B"], right: ["C"] },
+      { id: 1, left: ["D", "I"], right: ["B"] },
+      { id: 2, left: ["A", "J"], right: ["F"] },
+      { id: 3, left: ["A", "J"], right: ["H", "D"] },
+      { id: 4, left: ["G", "B"], right: ["F", "J", "E"] },
+      { id: 5, left: ["I"], right: ["C", "G"] },
     ],
   },
 ];

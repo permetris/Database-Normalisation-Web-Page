@@ -2,31 +2,37 @@ const isKey = (key, attributes, dependencies) => {
   let bracket = key;
   let dependenciesN = dependencies.map((el) => el);
 
-    let arr1 = [1, 2, 3];
-    let arr2 = [1, 2, 3];
+  console.log("tesitra se kljuc: ", key);
+  while (true) {
+    let stopLoop = true;
+    for (let i = 0; i < dependenciesN.length; i++) {
+      if (bracket.every((el) => dependenciesN[i].left.includes(el))) {
+        console.log(bracket, dependenciesN[i].left);
+        stopLoop = false;
+        for (let value of dependenciesN[i].right) {
+          if (!bracket.includes(value)) {
+            bracket.push(value);
+            console.log(bracket);
+          }
+        }
+        dependenciesN.splice(i, 1);
+        break;
+      }
+    }
 
-    console.log(arr1.toString());
-//   while () {
-//     for (let i = 0; i < dependenciesN.length; i++) {
-//       if (key.includes(...dependenciesN[i].left)) {
-//         for (let value of dependenciesN[i].right) {
-//           if (!key.includes(value)) {
-//             key.push(value);
-//           }
-//         }
-//         bracket.push(...dependenciesN[i].right);
-
-//         dependenciesN.splice(i, 1);
-//         console.log(bracket);
-//         break;
-//       }
-//     }
-//   }
-
-  return true;
+    if (stopLoop) {
+      return false;
+    }
+    if (attributes.sort().toString() === bracket.sort().toString()) {
+      return true;
+    }
+  }
 };
 
 const CalculateKey = (schema) => {
+  let i = 0;
+  console.log(i);
+  i++;
   const attributes = schema.attributes.map((el) => {
     return { value: el, left: false, right: false };
   });
@@ -43,13 +49,11 @@ const CalculateKey = (schema) => {
       for (let leftValue of dependency.left) {
         if (attribute.value === leftValue) {
           attribute.left = true;
-          break;
         }
       }
       for (let rightValue of dependency.right) {
         if (attribute.value === rightValue) {
           attribute.right = true;
-          break;
         }
       }
     }
@@ -60,24 +64,32 @@ const CalculateKey = (schema) => {
       notInDependencies.push(attribute.value);
     } else if (attribute.left === true && attribute.right === false) {
       onLeftSide.push(attribute.value);
-    } else {
-      onBothSides.push(attributes.value);
+    } else if (attribute.left === false && attribute.right === true) {
+      onRightSide.push(attribute.value);
+    } else if (attribute.left === true && attribute.right === true) {
+      onBothSides.push(attribute.value);
     }
   }
 
   key.push(...onLeftSide, ...notInDependencies);
-  //   return key;
+  console.log("ispit kljuca", key);
+
   if (isKey(key, schema.attributes, dependencies)) {
+    console.log("log prvi");
     return key;
   }
 
-  //   for (let attribute of onBothSides) {
-  //     key.push(attribute);
-  //     if (isKey(key, schema.attributes, dependencies)) {
-  //       return key;
-  //     }
-  //   }
-  // };
+  let keys = [];
+  for (var el of onBothSides) {
+    console.log("kljuveci", keys);
+    let newKey = [...key, el];
+    console.log(newKey);
+    if (isKey(newKey, schema.attributes, dependencies)) {
+      keys.push(newKey);
+    }
+  }
+
+  return keys;
 };
 
 export default CalculateKey;

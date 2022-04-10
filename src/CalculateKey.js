@@ -8,8 +8,12 @@ const isKey = (key, attributes, dependencies) => {
     console.log(arr1.toString());
 //   while () {
 //     for (let i = 0; i < dependenciesN.length; i++) {
-//         if (key.includes(...dependenciesN[i].left)) {
-          
+//       if (key.includes(...dependenciesN[i].left)) {
+//         for (let value of dependenciesN[i].right) {
+//           if (!key.includes(value)) {
+//             key.push(value);
+//           }
+//         }
 //         bracket.push(...dependenciesN[i].right);
 
 //         dependenciesN.splice(i, 1);

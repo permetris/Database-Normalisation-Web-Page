@@ -23,15 +23,19 @@ const InputNewDependency = (props) => {
     event.target.id === "left" ? setLeftValue(result) : setRightValue(result);
   };
 
+
   const addDependency = (event) => {
+
     const newDependency = {
       id: Math.random(),
       left: leftValue,
       right: rightValue,
     };
+
     setShowPreview(true);
     props.submitNewDependency(newDependency);
     event.preventDefault();
+
   };
 
   return (
@@ -51,7 +55,7 @@ const InputNewDependency = (props) => {
           >
             {attributes.map((el) => {
               return (
-                <option key={el} value={el}>
+                <option key={el} defaultValue={el}>
                   {el}
                 </option>
               );
@@ -72,7 +76,9 @@ const InputNewDependency = (props) => {
             multiple
           >
             {attributes.map((el) => {
+
               return <option value={el}>{el}</option>;
+
             })}
           </select>
         </div>

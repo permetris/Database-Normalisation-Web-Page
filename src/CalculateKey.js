@@ -1,13 +1,14 @@
 const isKey = (key, attributes, dependencies) => {
-  let bracket = key;
+  let bracket = [...key];
   let dependenciesN = dependencies.map((el) => el);
 
-  console.log("tesitra se kljuc: ", key);
   while (true) {
     let stopLoop = true;
     for (let i = 0; i < dependenciesN.length; i++) {
-      if (bracket.every((el) => dependenciesN[i].left.includes(el))) {
-        console.log(bracket, dependenciesN[i].left);
+      console.log(bracket, dependenciesN[i].left);
+      let res = dependenciesN[i].left.every((el) => bracket.includes(el));
+
+      if (res) {
         stopLoop = false;
         for (let value of dependenciesN[i].right) {
           if (!bracket.includes(value)) {
@@ -30,30 +31,34 @@ const isKey = (key, attributes, dependencies) => {
 };
 
 const CalculateKey = (schema) => {
-  let i = 0;
-  console.log(i);
-  i++;
+  // Mapiranje svih elemenata, tako da se od svakog elementa napravi objekt koji sadri vrijednost i 2 booleana za je li se nasao na lijevoj ili desnoj strani relacija
   const attributes = schema.attributes.map((el) => {
     return { value: el, left: false, right: false };
   });
+
+  // Ovisnosti su poslane preko objekta, ovo je samo da ne pisem schema. svaki put
   const dependencies = schema.dependencies;
 
+  // Arrayi di se spremaju elementi koji su nadeni
   let onRightSide = [];
   let onLeftSide = [];
   let onBothSides = [];
   let notInDependencies = [];
   let key = [];
 
+  // Prolazak kroz sve atribute i provjera je li se nalazi na lijevoj ili desnoj strani
   for (let attribute of attributes) {
     for (let dependency of dependencies) {
       for (let leftValue of dependency.left) {
         if (attribute.value === leftValue) {
-          attribute.left = true;
+            attribute.left = true;
+            break;
         }
       }
       for (let rightValue of dependency.right) {
         if (attribute.value === rightValue) {
-          attribute.right = true;
+            attribute.right = true;
+            break;
         }
       }
     }
@@ -72,24 +77,21 @@ const CalculateKey = (schema) => {
   }
 
   key.push(...onLeftSide, ...notInDependencies);
-  console.log("ispit kljuca", key);
-
-  if (isKey(key, schema.attributes, dependencies)) {
-    console.log("log prvi");
-    return key;
-  }
+  
 
   let keys = [];
+
+  if (isKey(key, schema.attributes, dependencies)) {
+    keys.push(key);
+  }
   for (var el of onBothSides) {
-    console.log("kljuveci", keys);
     let newKey = [...key, el];
     console.log(newKey);
     if (isKey(newKey, schema.attributes, dependencies)) {
       keys.push(newKey);
     }
   }
-
-  return keys;
+  return [...keys];
 };
 
 export default CalculateKey;

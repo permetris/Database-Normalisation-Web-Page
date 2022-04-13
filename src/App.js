@@ -15,7 +15,8 @@ const DUMMY_DATA = [
       { id: 3, left: ["G", "B"], right: ["F", "J", "E"] },
       { id: 4, left: ["A", "J"], right: ["H", "D"] },
       { id: 5, left: ["I"], right: ["C", "D"] },
-    ],  
+    ],
+    primaryKey: [],
   },
 
   {
@@ -28,6 +29,7 @@ const DUMMY_DATA = [
       { id: 4, left: ["G", "B"], right: ["F", "J", "E"] },
       { id: 5, left: ["I"], right: ["C", "G"] },
     ],
+    primaryKey: [],
   },
 ];
 

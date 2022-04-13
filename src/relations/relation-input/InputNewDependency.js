@@ -5,7 +5,14 @@ const InputNewDependency = (props) => {
   const [rightValue, setRightValue] = useState();
   const [showPreview, setShowPreview] = useState(false);
 
-  const attributes = ["Choose", ...props.attributes];
+  const [attributesLeft, setAttributesLeft] = useState([
+    "Choose",
+    ...props.attributes,
+  ]);
+  const [attributesRight, setAttributesRight] = useState([
+    "Choose",
+    ...props.attributes,
+  ]);
 
   const submitValue = (event) => {
     let result = [];
@@ -19,23 +26,28 @@ const InputNewDependency = (props) => {
         result.push(opt.value || opt.text);
       }
     }
+    if (event.target.id === "left") {
+      for (let el of result) {
+        setAttributesRight((previous) => {
+          return [...previous.filter((item) => item !== el)];
+        });
+      }
+    }
 
     event.target.id === "left" ? setLeftValue(result) : setRightValue(result);
   };
 
-
   const addDependency = (event) => {
-
     const newDependency = {
       id: Math.random(),
       left: leftValue,
       right: rightValue,
     };
-
+    setAttributesLeft((previous)=>["Choose...", ...props.attributes]);
+    setAttributesRight((previous) =>["Choose...", ...props.attributes]);
     setShowPreview(true);
     props.submitNewDependency(newDependency);
     event.preventDefault();
-
   };
 
   return (
@@ -53,7 +65,7 @@ const InputNewDependency = (props) => {
             id="left"
             multiple
           >
-            {attributes.map((el) => {
+            {attributesLeft.map((el) => {
               return (
                 <option key={el} defaultValue={el}>
                   {el}
@@ -75,10 +87,8 @@ const InputNewDependency = (props) => {
             id="right"
             multiple
           >
-            {attributes.map((el) => {
-
+            {attributesRight.map((el) => {
               return <option value={el}>{el}</option>;
-
             })}
           </select>
         </div>

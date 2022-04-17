@@ -1,6 +1,5 @@
 import RelationItem from "./RelationItem";
 import Card from "../../card/Card";
-import CalculateKey from "../../CalculateKey";
 const ListAllRelations = (props) => {
   return (
     <Card className="container">
@@ -10,7 +9,7 @@ const ListAllRelations = (props) => {
         return (
           <div>
             <RelationItem key={element.id} itemData={element} />
-            <p>{CalculateKey(element).map((el) => el)}</p>
+            
           </div>
         );
       })}

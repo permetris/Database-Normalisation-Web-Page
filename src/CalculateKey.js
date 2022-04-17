@@ -1,11 +1,11 @@
 const isKey = (key, attributes, dependencies) => {
   let bracket = [...key];
   let dependenciesN = dependencies.map((el) => el);
+  const atr = attributes.map((el) => el.value);
 
   while (true) {
     let stopLoop = true;
     for (let i = 0; i < dependenciesN.length; i++) {
-      console.log(bracket, dependenciesN[i].left);
       let res = dependenciesN[i].left.every((el) => bracket.includes(el));
 
       if (res) {
@@ -13,7 +13,6 @@ const isKey = (key, attributes, dependencies) => {
         for (let value of dependenciesN[i].right) {
           if (!bracket.includes(value)) {
             bracket.push(value);
-            console.log(bracket);
           }
         }
         dependenciesN.splice(i, 1);
@@ -24,20 +23,17 @@ const isKey = (key, attributes, dependencies) => {
     if (stopLoop) {
       return false;
     }
-    if (attributes.sort().toString() === bracket.sort().toString()) {
+    if (atr.sort().toString() === bracket.sort().toString()) {
       return true;
     }
   }
 };
 
-const CalculateKey = (schema) => {
+const CalculateKey = (attr, dependencies) => {
   // Mapiranje svih elemenata, tako da se od svakog elementa napravi objekt koji sadri vrijednost i 2 booleana za je li se nasao na lijevoj ili desnoj strani relacija
-  const attributes = schema.attributes.map((el) => {
+  const attributes = attr.map((el) => {
     return { value: el, left: false, right: false };
   });
-
-  // Ovisnosti su poslane preko objekta, ovo je samo da ne pisem schema. svaki put
-  const dependencies = schema.dependencies;
 
   // Arrayi di se spremaju elementi koji su nadeni
   let onRightSide = [];
@@ -51,14 +47,14 @@ const CalculateKey = (schema) => {
     for (let dependency of dependencies) {
       for (let leftValue of dependency.left) {
         if (attribute.value === leftValue) {
-            attribute.left = true;
-            break;
+          attribute.left = true;
+          break;
         }
       }
       for (let rightValue of dependency.right) {
         if (attribute.value === rightValue) {
-            attribute.right = true;
-            break;
+          attribute.right = true;
+          break;
         }
       }
     }
@@ -77,21 +73,60 @@ const CalculateKey = (schema) => {
   }
 
   key.push(...onLeftSide, ...notInDependencies);
-  
 
   let keys = [];
 
-  if (isKey(key, schema.attributes, dependencies)) {
+  if (isKey(key, attributes, dependencies)) {
     keys.push(key);
   }
-  for (var el of onBothSides) {
-    let newKey = [...key, el];
-    console.log(newKey);
-    if (isKey(newKey, schema.attributes, dependencies)) {
-      keys.push(newKey);
+
+  const getCombinations = (chars) => {
+    var result = [];
+    var f = (prefix, chars) => {
+      for (var i = 0; i < chars.length; i++) {
+        result.push(prefix + chars[i]);
+        f(prefix + chars[i], chars.slice(i + 1));
+      }
+    };
+    f("", chars);
+    return result;
+  };
+
+  let combinations = getCombinations(onBothSides).sort();
+  combinations = combinations.sort((a, b) => a.length - b.length);
+
+  for (var item of combinations) {
+    let newKey = [...key, ...item];
+    if (keys.length === 0) {
+      isKey(newKey, attributes, dependencies) && keys.push(newKey);
+      continue;
+    }
+
+    for (let el of keys) {
+      console.log("Kandidat kljuc:", newKey, "stari kljuc", el);
+      let res = el.every((attr) => newKey.includes(attr));
+
+      if (!res) {
+        if (isKey(newKey, attributes, dependencies)) {
+          keys.push(newKey);
+        }
+        break;
+      }
     }
   }
-  return [...keys];
+  let minLength = 1000;
+  keys.forEach(el => {
+    if (el.length < minLength) {
+      minLength = el.length;
+    }
+  })
+
+
+  const minKeys = keys.filter(el => el.length === minLength);
+  
+  return [...minKeys];
 };
+
+
 
 export default CalculateKey;

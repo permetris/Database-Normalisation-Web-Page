@@ -1,6 +1,12 @@
 import DependencyItem from "./DependencyItem";
+import CalculateKey from "../../CalculateKey";
+import PrimaryKeyItem from "./PrimaryKeyItem";
 
 const RelationItem = (props) => {
+  props.itemData.primaryKey = CalculateKey(
+    props.itemData.attributes,
+    props.itemData.dependencies
+  );
   return (
     <div className="mb-5 card p-3 d-flex shadow">
       <div className="card mb-3">
@@ -9,11 +15,22 @@ const RelationItem = (props) => {
           {props.itemData.attributes.map((element) => element + ",")}
         </li>
       </div>
-      <div className="card p2">
+      <div className="card mb-3">
         <div className="card-header">Dependencies</div>
         <ul className="list-group-flush">
           {props.itemData.dependencies.map((dependency) => (
-            <DependencyItem key={ dependency.id} dependency={dependency} />
+            <DependencyItem key={dependency.id} dependency={dependency} />
+          ))}
+        </ul>
+      </div>
+      <div className="card">
+        <div className="card-header">Keys</div>
+        <ul className="list-group-flush">
+          {props.itemData.primaryKey.map((primaryKey) => (
+            <PrimaryKeyItem
+              key={props.itemData.primaryKey}
+              primaryKey={primaryKey}
+            />
           ))}
         </ul>
       </div>

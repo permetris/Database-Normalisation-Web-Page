@@ -42,6 +42,7 @@ function App() {
     });
   };
 
+  console.log(DUMMY_DATA[1]);
   return (
     <BrowserRouter>
       <NavigationBar />

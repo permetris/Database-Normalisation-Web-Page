@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import InputAttributes from "./InputAttributes";
 import InputNewDependency from "./InputNewDependency";
 import Card from "../../card/Card";
@@ -8,6 +8,7 @@ const CreateRelations = (props) => {
   const [attributes, setAttributes] = useState([]);
   const [dependencies, setDependencies] = useState([]);
   const [showAttributesInput, setShowAttributesInput] = useState(false);
+  const navigate = useNavigate();
 
   const formSubmitHandler = (event) => {
     const newEntry = {
@@ -16,7 +17,8 @@ const CreateRelations = (props) => {
       dependencies: dependencies,
     };
     props.addNewRelationSchema(newEntry);
-    return <Navigate to="/" />;
+    navigate('/');
+    
   };
   // Passed into InputAttributes component to get attributes from input field
   const submitAttributes = (event) => {

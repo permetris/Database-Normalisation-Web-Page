@@ -7,7 +7,7 @@ import NavigationBar from "./navigation/NavigationBar";
 
 const DUMMY_DATA = [
   {
-    id: 4,
+    id: Math.random(),
     attributes: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
     dependencies: [
       { id: 1, left: ["D", "I"], right: ["B"] },
@@ -17,10 +17,12 @@ const DUMMY_DATA = [
       { id: 5, left: ["I"], right: ["C", "D"] },
     ],
     primaryKey: [],
+    thrirdNF: [],
+    boyceNF: [],
   },
 
   {
-    id: 5,
+    id: Math.random(),
     attributes: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
     dependencies: [
       { id: 1, left: ["D", "I"], right: ["B"] },
@@ -30,6 +32,37 @@ const DUMMY_DATA = [
       { id: 5, left: ["I"], right: ["C", "G"] },
     ],
     primaryKey: [],
+    thrirdNF: [],
+    boyceNF: [],
+  },
+  {
+    id: Math.random(),
+    attributes: ["A", "B", "C", "D", "E", "F", "G"],
+    dependencies: [
+      { id: 1, left: ["A"], right: ["D"] },
+      { id: 2, left: ["A", "G"], right: ["B"] },
+      { id: 3, left: ["B"], right: ["G"] },
+      { id: 4, left: ["B"], right: ["E"] },
+      { id: 5, left: ["E"], right: ["B"] },
+      { id: 6, left: ["E"], right: ["F"] },
+    ],
+    primaryKey: [],
+    thrirdNF: [],
+    boyceNF: [],
+  },
+  {
+    id: Math.random(),
+    attributes: ["St", "V", "P", "U", "So", "O"],
+    dependencies: [
+      { id: 1, left: ["P"], right: ["U"] },
+      { id: 2, left: ["V", "So"], right: ["P"] },
+      { id: 3, left: ["V", "U"], right: ["So"] },
+      { id: 4, left: ["V", "St"], right: ["So"] },
+      { id: 5, left: ["P", "St"], right: ["O"] },
+    ],
+    primaryKey: [],
+    thrirdNF: [],
+    boyceNF: [],
   },
 ];
 
@@ -42,7 +75,6 @@ function App() {
     });
   };
 
-  console.log(DUMMY_DATA[1]);
   return (
     <BrowserRouter>
       <NavigationBar />

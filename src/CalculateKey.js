@@ -35,6 +35,15 @@ const CalculateKey = (attr, dependencies) => {
     return { value: el, left: false, right: false };
   });
 
+
+  // Desna strana, nije dio kljuca
+  // Lijeva strana je dio kljuca
+  // Ako nije nigdi, onda je isto dio kljuca
+  
+
+  // !! Ako je na lijevoj i desnoj, potencijalno je dio kljuca
+
+
   // Arrayi di se spremaju elementi koji su nadeni
   let onRightSide = [];
   let onLeftSide = [];
@@ -72,9 +81,9 @@ const CalculateKey = (attr, dependencies) => {
     }
   }
 
-  key.push(...onLeftSide, ...notInDependencies);
+  key.push(...onLeftSide, ...notInDependencies); // Kombinacij atributa koji su na livoj strani i koji nisu uopce u ovisnostima
 
-  let keys = [];
+  let keys = []; // vise kljuca, ovo array kljuca -> array arraya
 
   if (isKey(key, attributes, dependencies)) {
     keys.push(key);
@@ -96,14 +105,16 @@ const CalculateKey = (attr, dependencies) => {
   combinations = combinations.sort((a, b) => a.length - b.length);
 
   for (var item of combinations) {
-    let newKey = [...key, ...item];
+
+    console.log('kombinacije', combinations);
+    let newKey = [...key, ...item]; // 
     if (keys.length === 0) {
       isKey(newKey, attributes, dependencies) && keys.push(newKey);
       continue;
     }
 
     for (let el of keys) {
-      console.log("Kandidat kljuc:", newKey, "stari kljuc", el);
+      if (el.length <  newKey.length) continue;
       let res = el.every((attr) => newKey.includes(attr));
 
       if (!res) {
@@ -114,17 +125,7 @@ const CalculateKey = (attr, dependencies) => {
       }
     }
   }
-  let minLength = 1000;
-  keys.forEach(el => {
-    if (el.length < minLength) {
-      minLength = el.length;
-    }
-  })
-
-
-  const minKeys = keys.filter(el => el.length === minLength);
-  
-  return [...minKeys];
+  return [...keys];
 };
 
 

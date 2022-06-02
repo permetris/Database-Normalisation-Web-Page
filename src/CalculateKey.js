@@ -106,7 +106,6 @@ const CalculateKey = (attr, dependencies) => {
 
   for (var item of combinations) {
 
-    console.log('kombinacije', combinations);
     let newKey = [...key, ...item]; // 
     if (keys.length === 0) {
       isKey(newKey, attributes, dependencies) && keys.push(newKey);

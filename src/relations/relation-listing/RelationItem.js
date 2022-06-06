@@ -36,7 +36,7 @@ const RelationItem = (props) => {
           ))}
         </ul>
       </div>
-      <div className="card">
+      <div className="card mb-3">
         <div className="card-header">Third Normal Form</div>
         <ul className="list-group-flush">
           {props.itemData.thirdNF.map(
@@ -46,7 +46,9 @@ const RelationItem = (props) => {
       </div>
       <div className="card">
         <div className="card-header">Boyce-Codd Normal Form</div>
-        <ul className="list-group-flush">{props.itemData.boyceNF}</ul>
+        <ul className="list-group-flush">{props.itemData.boyceNF.map(
+            (el) => el.reduce((acc, letter) => acc + letter + "") + ","
+          )}</ul>
       </div>
     </div>
   );

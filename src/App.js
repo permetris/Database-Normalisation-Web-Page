@@ -54,11 +54,12 @@ const DUMMY_DATA = [
     id: Math.random(),
     attributes: ["St", "V", "P", "U", "So", "O"],
     dependencies: [
+      { id: 5, left: ["P", "St"], right: ["O"] },
       { id: 1, left: ["P"], right: ["U"] },
       { id: 2, left: ["V", "So"], right: ["P"] },
       { id: 3, left: ["V", "U"], right: ["So"] },
       { id: 4, left: ["V", "St"], right: ["So"] },
-      { id: 5, left: ["P", "St"], right: ["O"] },
+      
     ],
     primaryKey: [],
     thrirdNF: [],

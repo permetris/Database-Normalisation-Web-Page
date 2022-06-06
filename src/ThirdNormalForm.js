@@ -57,8 +57,8 @@ const normaliseToThird = (dependencies, keys) => {
   let found = false; // postavlja found na false, za iducu iteraciju
   for (let table of normalised) {
     // ako kljuc ne postoji doda se
-    if (table.length === keys[0].length) {
-      if (table.every((el) => keys[0].includes(el))) found = true;
+    if (table.length > keys[0].length) {
+      if (keys[0].every((el) => table.includes(el))) found = true;
     }
   }
   !found && normalised.push(keys[0]);

@@ -1,43 +1,15 @@
 const isTrivialDependencys = (dependency) => {
-  console.log('skjdfsdf',dependency)
   return dependency.right.every((el) => dependency.left.includes(el));
 };
 const isSuperKeys = (dependency, key) => {
-  console.log('skjdfsdf',dependency)
-  console.log("kljuc", key);
   key.every((el) => dependency.left.includes(el));
 };
-const passesRequirementss = (dependency, key) => {
-  console.log("passes", key);
-   return isTrivialDependencys(dependency)
+const passesRequirementss = (dependency, primaryKey) => {
+  return isTrivialDependencys(dependency)
     ? true
-    : isSuperKeys(dependency, key)
+    : isSuperKeys(dependency, primaryKey)
     ? true
     : false;
-};
-const calculateBoyceNormalForm = (relation) => {
-  // Nademo funkcijsku ovisnost koja ne prolazi pravila BCNF
-  // Radimo dekompoziciju po R za tu FO
-  
-  console.log("kljucevi", relation.primaryKey);
-  let passed = true;
-  for (let dep of relation.dependencies) {
-    console.log("kkkkk",relation.primaryKey)
-    if (!passesRequirementss(dep, relation.primaryKey)) {
-      passed = false;
-      normaliseToBoyce(
-        dep,
-        relation.attributes,
-        relation.dependencies,
-        relation.primaryKeys
-      );
-      break;
-    }
-  }
-  
-};
-const printBoyce = () => {
-  return;
 };
 
 const removeRightSide = (total, rightSide) => {
@@ -53,48 +25,76 @@ const findDependencies = (total, dependencies) => {
 
     if (foundLeft && foundRight) foundDependencies.push(dep);
   }
-  return foundDependencies;
+  return foundDependencies === 0 ? false : foundDependencies;
 
   //radi
 };
 
-const normaliseToBoyce = (notPassed, attributes, dependencies, keys) => {
-  let result = [];
-  console.log(notPassed);
-  let endOfDecompostion = false;
+const normaliseToBoyce = (notPassed, attributes, dependencies, primaryKey) => {
+  let result = []; // spremamo rezultat
+  let notP = notPassed;
+  let endOfDecompostion = false; //
   let s2 = [...attributes];
+  let s3; //
 
   while (!endOfDecompostion) {
-    result.push([...notPassed.left, ...notPassed.right]);
+    result.push([...notP.left, ...notP.right]);
+
     // radi
-    s2 = removeRightSide(s2, notPassed);
+    s3 = [...s2];
+    s2 = removeRightSide(s2, notP);
     // radi
-    let foundDependencies = findDependencies(s2, dependencies);
-    console.log('vracene pronadene',foundDependencies);
+    let foundDependencies = findDependencies(s2, dependencies); // sve ovisnosti unutar s2, ili false
     if (!foundDependencies) {
+      // ako je false, onda je prazan skup i gotovo je izvrsavanje
       result.push(s2);
       return result;
     }
 
+    let notFoundRuleBreakingDependency = false;
     for (let dep of foundDependencies) {
-      console.log('dode li izvrsavanje do ode? ',dep)
-      if (!passesRequirementss(dep, keys)) {
-        console.log("ovo isto nije naslo ovisnost koja zadovoljava");
+      if (!passesRequirementss(dep, primaryKey)) {
+        notFoundRuleBreakingDependency = true;
+        notP = dep;
         break;
       }
     }
 
     foundDependencies = [];
-    // if (!notP) {
-    //   endOfDecompostion = true;
-    //   result.push(s2);
-    // }
+    if (!notFoundRuleBreakingDependency) {
+      endOfDecompostion = true;
+      result.splice(result.length - 1, 1);
+      result.push(s3);
+
+      let found = false; // postavlja found na false, za iducu iteraciju
+      for (let table of result) {
+        // ako kljuc ne postoji doda se
+        if (table.length > primaryKey.length) {
+          if (primaryKey.every((el) => table.includes(el))) found = true;
+        }
+      }
+      !found && result.push(primaryKey);
+    }
   }
   return result;
 };
 
+const calculateBoyceNormalForm = (relation) => {
+  // Nademo funkcijsku ovisnost koja ne prolazi pravila BCNF
+  // Radimo dekompoziciju po R za tu FO
+
+  const primaryKey = relation.primaryKey[0];
+
+  for (let dep of relation.dependencies) {
+    if (!passesRequirementss(dep, primaryKey)) {
+      return normaliseToBoyce(
+        dep,
+        relation.attributes,
+        relation.dependencies,
+        primaryKey
+      );
+    }
+  }
+};
+
 export default calculateBoyceNormalForm;
-
-// provjerit je li svi prolaze pravila BCNF
-
-// ako jedan ne prode, onda po njemu redimo dekompoziciju

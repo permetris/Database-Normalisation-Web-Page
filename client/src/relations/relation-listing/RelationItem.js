@@ -10,8 +10,6 @@ const RelationItem = (props) => {
     props.itemData.dependencies
   );
 
-  props.itemData.thirdNF = calculateThirdNormalForm(props.itemData);
-  props.itemData.boyceNF = calculateBoyceNormalForm(props.itemData);
   return (
     <div className="mb-5 card p-3 d-flex shadow">
       <div className="card mb-3">
@@ -39,16 +37,21 @@ const RelationItem = (props) => {
       <div className="card mb-3">
         <div className="card-header">Third Normal Form</div>
         <ul className="list-group-flush">
-          {props.itemData.thirdNF.map(
+          {
+            props.itemData.thirdNF /* {props.itemData.thirdNF.map(
+          
             (el) => el.reduce((acc, letter) => acc + letter + "") + ","
-          )}
+          )} */
+          }
         </ul>
       </div>
       <div className="card">
         <div className="card-header">Boyce-Codd Normal Form</div>
-        <ul className="list-group-flush">{props.itemData.boyceNF.map(
+        <ul className="list-group-flush">
+          {props.itemData.boyceNF/* {props.itemData.boyceNF.map(
             (el) => el.reduce((acc, letter) => acc + letter + "") + ","
-          )}</ul>
+          )} */}
+        </ul>
       </div>
     </div>
   );

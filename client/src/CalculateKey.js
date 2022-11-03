@@ -3,8 +3,11 @@ const isKey = (key, attributes, dependencies) => {
   let dependenciesN = dependencies.map((el) => el);
   const atr = attributes.map((el) => el.value);
 
-  while (true) {
-    let stopLoop = true;
+
+  let stopLoop = true;
+
+  while (stopLoop) {
+   
     for (let i = 0; i < dependenciesN.length; i++) {
       let res = dependenciesN[i].left.every((el) => bracket.includes(el));
 
@@ -15,6 +18,7 @@ const isKey = (key, attributes, dependencies) => {
             bracket.push(value);
           }
         }
+        
         dependenciesN.splice(i, 1);
         break;
       }
@@ -30,28 +34,18 @@ const isKey = (key, attributes, dependencies) => {
 };
 
 const CalculateKey = (attr, dependencies) => {
-  // Mapiranje svih elemenata, tako da se od svakog elementa napravi objekt koji sadri vrijednost i 2 booleana za je li se nasao na lijevoj ili desnoj strani relacija
   const attributes = attr.map((el) => {
     return { value: el, left: false, right: false };
   });
 
-
-  // Desna strana, nije dio kljuca
-  // Lijeva strana je dio kljuca
-  // Ako nije nigdi, onda je isto dio kljuca
-  
-
-  // !! Ako je na lijevoj i desnoj, potencijalno je dio kljuca
-
-
-  // Arrayi di se spremaju elementi koji su nadeni
+ 
   let onRightSide = [];
   let onLeftSide = [];
   let onBothSides = [];
   let notInDependencies = [];
   let key = [];
 
-  // Prolazak kroz sve atribute i provjera je li se nalazi na lijevoj ili desnoj strani
+ 
   for (let attribute of attributes) {
     for (let dependency of dependencies) {
       for (let leftValue of dependency.left) {
@@ -81,18 +75,18 @@ const CalculateKey = (attr, dependencies) => {
     }
   }
 
-  key.push(...onLeftSide, ...notInDependencies); // Kombinacij atributa koji su na livoj strani i koji nisu uopce u ovisnostima
+  key.push(...onLeftSide, ...notInDependencies);
 
-  let keys = []; // vise kljuca, ovo array kljuca -> array arraya
+  let keys = []; 
 
   if (isKey(key, attributes, dependencies)) {
     keys.push(key);
   }
 
   const getCombinations = (chars) => {
-    var result = [];
-    var f = (prefix, chars) => {
-      for (var i = 0; i < chars.length; i++) {
+    let result = [];
+    let f = (prefix, chars) => {
+      for (let i = 0; i < chars.length; i++) {
         result.push(prefix + chars[i]);
         f(prefix + chars[i], chars.slice(i + 1));
       }
@@ -105,15 +99,14 @@ const CalculateKey = (attr, dependencies) => {
   combinations = combinations.sort((a, b) => a.length - b.length);
 
   for (var item of combinations) {
-
-    let newKey = [...key, ...item]; // 
+    let newKey = [...key, ...item]; //
     if (keys.length === 0) {
       isKey(newKey, attributes, dependencies) && keys.push(newKey);
       continue;
     }
 
     for (let el of keys) {
-      if (el.length <  newKey.length) continue;
+      if (el.length < newKey.length) continue;
       let res = el.every((attr) => newKey.includes(attr));
 
       if (!res) {
@@ -126,7 +119,5 @@ const CalculateKey = (attr, dependencies) => {
   }
   return [...keys];
 };
-
-
 
 export default CalculateKey;

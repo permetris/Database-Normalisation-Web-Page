@@ -1,8 +1,8 @@
 import DependencyItem from "./DependencyItem";
-import CalculateKey from "../../CalculateKey";
+import CalculateKey from "../../../../server/calculations/CalculateKey";
 import PrimaryKeyItem from "./PrimaryKeyItem";
-import calculateThirdNormalForm from "../../ThirdNormalForm";
-import calculateBoyceNormalForm from "../../BoyceNormalForm";
+import calculateThirdNormalForm from "../../../../server/calculations/ThirdNormalForm";
+import calculateBoyceNormalForm from "../../../../server/calculations/BoyceNormalForm";
 
 const RelationItem = (props) => {
   props.itemData.primaryKey = CalculateKey(
@@ -48,9 +48,11 @@ const RelationItem = (props) => {
       <div className="card">
         <div className="card-header">Boyce-Codd Normal Form</div>
         <ul className="list-group-flush">
-          {props.itemData.boyceNF/* {props.itemData.boyceNF.map(
+          {
+            props.itemData.boyceNF /* {props.itemData.boyceNF.map(
             (el) => el.reduce((acc, letter) => acc + letter + "") + ","
-          )} */}
+          )} */
+          }
         </ul>
       </div>
     </div>

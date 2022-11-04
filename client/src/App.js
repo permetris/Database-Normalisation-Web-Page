@@ -19,15 +19,18 @@ function App() {
         setData(response.data);
         setLoading(false);
       });
-  },[]);
+  }, []);
 
   const addNewRelationSchema = (newRelation) => {
-    setData((previous) => {
-      return [newRelation, ...previous];
-    });
+    axios
+      .post("http://localhost:8000/relations", newRelation)
+      .then((response) => console.log("this is response", response))
+      .catch((err) => console.log("this is the errorr", err));
+
+    setData((previous)=>[...previous,newRelation]);
   };
   if (isLoading) {
-    return <div className="App">Loading...</div>;
+    return <div>Loading...</div>;
   }
 
   return (

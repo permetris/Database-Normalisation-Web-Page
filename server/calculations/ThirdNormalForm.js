@@ -7,7 +7,6 @@ const isSuperKey = (dependency, key) => {
 };
 
 const passesRequirements = (dependency, key) => {
- 
   return isTrivialDependency(dependency)
     ? true
     : isSuperKey(dependency, key[0])
@@ -24,10 +23,9 @@ const isBasicAttribute = (dependency, key) => {
 };
 
 const normaliseToThird = (dependencies, keys) => {
-  let normalised = []; 
+  let normalised = [];
 
   const tabledDependencies = dependencies.map((el) => [
-    
     ...el.left,
     ...el.right,
   ]);
@@ -48,7 +46,7 @@ const normaliseToThird = (dependencies, keys) => {
     }
     !found && normalised.push(dependency);
   }
-  let found = false; 
+  let found = false;
   for (let table of normalised) {
     if (table.length > keys[0].length) {
       if (keys[0].every((el) => table.includes(el))) found = true;
@@ -73,19 +71,17 @@ const calculateThirdNormalForm = (relation) => {
 
   for (let dependency of dependencies) {
     dependencies.satisfies = passesRequirements(
-      
       dependency.dependency,
       relation.primaryKey
     );
   }
   const notPassed = dependencies.filter(
-   
     (el) => dependencies.satisfies === false
   );
 
-  return notPassed.length > 0 
+  return notPassed.length > 0
     ? normaliseToThird(relation.dependencies, relation.primaryKey)
     : printThird(relation.dependencies, relation.primaryKey);
 };
 
-export default calculateThirdNormalForm;
+module.exports = { calculateThirdNormalForm };

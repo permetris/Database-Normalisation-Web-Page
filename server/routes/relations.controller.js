@@ -1,6 +1,6 @@
-import CalculateKey from "../calculations/CalculateKey";
-import calculateBoyceNormalForm from "../calculations/BoyceNormalForm";
-import calculateThirdNormalForm from "../calculations/ThirdNormalForm";
+const { CalculateKey } = require("../calculations/CalculateKey");
+const { calculateBoyceNormalForm } = require("../calculations/BoyceNormalForm");
+const { calculateThirdNormalForm } = require("../calculations/ThirdNormalForm");
 const relations = require("../models/dependency.mongo");
 
 async function httpGetRelations(req, res) {
@@ -13,11 +13,14 @@ async function httpPostRelation(req, res) {
     return res.status(400).json({ error: "Data you entered is wrong!" });
   }
 
-  relation.primaryKey = CalculateKey(relation);
-  relation.boyceNF = calculateBoyceNormalForm(relation);
-  relation.thirdNF = calculateThirdNormalForm(relation);
+  CalculateKey(relation.attributes, relation.dependencies).forEach((el) =>
+    relation.primaryKey.push(el)
+  );
+  calculateBoyceNormalForm(relation).forEach((el) => relation.boyceNF.push(el));
+  calculateThirdNormalForm(relation).forEach((el) => relation.thirdNF.push(el));
 
-  await relations.create(relation);
+  relations.create(relation);
+
 
   res.status(201).json(relation);
 }

@@ -3,11 +3,9 @@ const isKey = (key, attributes, dependencies) => {
   let dependenciesN = dependencies.map((el) => el);
   const atr = attributes.map((el) => el.value);
 
-
   let stopLoop = true;
 
   while (stopLoop) {
-   
     for (let i = 0; i < dependenciesN.length; i++) {
       let res = dependenciesN[i].left.every((el) => bracket.includes(el));
 
@@ -18,7 +16,7 @@ const isKey = (key, attributes, dependencies) => {
             bracket.push(value);
           }
         }
-        
+
         dependenciesN.splice(i, 1);
         break;
       }
@@ -38,14 +36,12 @@ const CalculateKey = (attr, dependencies) => {
     return { value: el, left: false, right: false };
   });
 
- 
   let onRightSide = [];
   let onLeftSide = [];
   let onBothSides = [];
   let notInDependencies = [];
   let key = [];
 
- 
   for (let attribute of attributes) {
     for (let dependency of dependencies) {
       for (let leftValue of dependency.left) {
@@ -64,20 +60,20 @@ const CalculateKey = (attr, dependencies) => {
   }
 
   for (let attribute of attributes) {
-    if (attribute.left === false && attribute.right === false) {
+    if (!attribute.left && !attribute.right) {
       notInDependencies.push(attribute.value);
-    } else if (attribute.left === true && attribute.right === false) {
+    } else if (attribute.left && !attribute.right) {
       onLeftSide.push(attribute.value);
-    } else if (attribute.left === false && attribute.right === true) {
+    } else if (!attribute.left && attribute.right) {
       onRightSide.push(attribute.value);
-    } else if (attribute.left === true && attribute.right === true) {
+    } else if (attribute.left && attribute.right) {
       onBothSides.push(attribute.value);
     }
   }
 
   key.push(...onLeftSide, ...notInDependencies);
 
-  let keys = []; 
+  let keys = [];
 
   if (isKey(key, attributes, dependencies)) {
     keys.push(key);
@@ -98,7 +94,7 @@ const CalculateKey = (attr, dependencies) => {
   let combinations = getCombinations(onBothSides).sort();
   combinations = combinations.sort((a, b) => a.length - b.length);
 
-  for (var item of combinations) {
+  for (let item of combinations) {
     let newKey = [...key, ...item]; //
     if (keys.length === 0) {
       isKey(newKey, attributes, dependencies) && keys.push(newKey);
@@ -117,7 +113,7 @@ const CalculateKey = (attr, dependencies) => {
       }
     }
   }
-  return [...keys];
+  console.log('kljuc',keys)
+  return keys;
 };
-
-export default CalculateKey;
+module.exports = { CalculateKey };

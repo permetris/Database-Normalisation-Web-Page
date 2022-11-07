@@ -1,10 +1,16 @@
 const isTrivialDependencys = (dependency) => {
+  passesRequirements;
   return dependency.right.every((el) => dependency.left.includes(el));
 };
-const isSuperKeys = (dependency, key) => {
-  key.every((el) => dependency.left.includes(el));
+const isSuperKeys = (dep, key) => {
+  const dependency = dep;
+  const primaryKey = key;
+
+  primaryKey.every((el) => dependency.left.includes(el));
 };
-const passesRequirementss = (dependency, primaryKey) => {
+const passesRequirements = (dep, pKey) => {
+  const dependency = dep;
+  const primaryKey = pKey;
   return isTrivialDependencys(dependency)
     ? true
     : isSuperKeys(dependency, primaryKey)
@@ -26,34 +32,29 @@ const findDependencies = (total, dependencies) => {
     if (foundLeft && foundRight) foundDependencies.push(dep);
   }
   return foundDependencies === 0 ? false : foundDependencies;
-
-  //radi
 };
 
 const normaliseToBoyce = (notPassed, attributes, dependencies, primaryKey) => {
-  let result = []; // spremamo rezultat
+  let result = [];
   let notP = notPassed;
-  let endOfDecompostion = false; //
+  let endOfDecompostion = false;
   let s2 = [...attributes];
-  let s3; //
+  let s3;
 
   while (!endOfDecompostion) {
     result.push([...notP.left, ...notP.right]);
 
-    // radi
     s3 = [...s2];
     s2 = removeRightSide(s2, notP);
-    // radi
-    let foundDependencies = findDependencies(s2, dependencies); // sve ovisnosti unutar s2, ili false
+    let foundDependencies = findDependencies(s2, dependencies);
     if (!foundDependencies) {
-      // ako je false, onda je prazan skup i gotovo je izvrsavanje
       result.push(s2);
       return result;
     }
 
     let notFoundRuleBreakingDependency = false;
     for (let dep of foundDependencies) {
-      if (!passesRequirementss(dep, primaryKey)) {
+      if (!passesRequirements(dep, primaryKey)) {
         notFoundRuleBreakingDependency = true;
         notP = dep;
         break;
@@ -76,6 +77,7 @@ const normaliseToBoyce = (notPassed, attributes, dependencies, primaryKey) => {
       !found && result.push(primaryKey);
     }
   }
+  console.log("result", result);
   return result;
 };
 
@@ -86,7 +88,7 @@ const calculateBoyceNormalForm = (relation) => {
   const primaryKey = relation.primaryKey[0];
 
   for (let dep of relation.dependencies) {
-    if (!passesRequirementss(dep, primaryKey)) {
+    if (!passesRequirements(dep, primaryKey)) {
       return normaliseToBoyce(
         dep,
         relation.attributes,
@@ -97,4 +99,4 @@ const calculateBoyceNormalForm = (relation) => {
   }
 };
 
-export default calculateBoyceNormalForm;
+module.exports = { calculateBoyceNormalForm };

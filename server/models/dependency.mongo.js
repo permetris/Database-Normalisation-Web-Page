@@ -30,9 +30,9 @@ const relationSchema = new mongoose.Schema({
       ],
     },
   ],
-  primaryKey: [],
-  thirdNF: [],
-  boyceNF: [],
+  primaryKey: [tableSchema],
+  thirdNF: [tableSchema],
+  boyceNF: [tableSchema],
 });
 
 module.exports = mongoose.model("Relation", relationSchema);

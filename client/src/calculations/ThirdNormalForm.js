@@ -1,5 +1,5 @@
 const isTrivialDependency = (dependency) => {
-  return dependency.right.every((el) => dependency.left.includes(el)); // Je li se svako element funkcijske ovisnosti nalazi na lijevog
+  return dependency.right.every((el) => dependency.left.includes(el));
 };
 
 const isSuperKey = (dependency, key) => {

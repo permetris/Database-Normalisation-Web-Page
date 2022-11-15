@@ -3,6 +3,9 @@ import { useState, React, useEffect } from "react";
 import CreateRelation from "./relations/relation-input/CreateRelations";
 import ListAllReltions from "./relations/relation-listing/ListAllRelations";
 import "bootstrap/dist/css/bootstrap.css";
+import CalculateKey from "./calculations/CalculateKey";
+import calculateThirdNormalForm from "./calculations/ThirdNormalForm";
+import calculateBoyceNormalForm from "./calculations/BoyceNormalForm";
 import NavigationBar from "./navigation/NavigationBar";
 import axios from "axios";
 
@@ -22,12 +25,22 @@ function App() {
   }, []);
 
   const addNewRelationSchema = (newRelation) => {
+    const receivedRelation = {
+      ...newRelation,
+      primaryKey: CalculateKey(
+        newRelation.attributes,
+        newRelation.dependenices
+      ),
+      thirdNF: calculateThirdNormalForm(newRelation),
+      boyceNF: calculateBoyceNormalForm(newRelation),
+    };
+
     axios
       .post("http://localhost:8000/relations", newRelation)
       .then((response) => console.log("this is response", response))
       .catch((err) => console.log("this is the errorr", err));
 
-    setData((previous)=>[...previous,newRelation]);
+    setData((previous) => [...previous, receivedRelation]);
   };
   if (isLoading) {
     return <div>Loading...</div>;

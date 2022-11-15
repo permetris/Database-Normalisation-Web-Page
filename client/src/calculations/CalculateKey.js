@@ -36,7 +36,6 @@ const CalculateKey = (attr, dependencies) => {
     return { value: el, left: false, right: false };
   });
 
-  let onRightSide = [];
   let onLeftSide = [];
   let onBothSides = [];
   let notInDependencies = [];
@@ -50,12 +49,6 @@ const CalculateKey = (attr, dependencies) => {
           break;
         }
       }
-      for (let rightValue of dependency.right) {
-        if (attribute.value === rightValue) {
-          attribute.right = true;
-          break;
-        }
-      }
     }
   }
 
@@ -64,8 +57,6 @@ const CalculateKey = (attr, dependencies) => {
       notInDependencies.push(attribute.value);
     } else if (attribute.left && !attribute.right) {
       onLeftSide.push(attribute.value);
-    } else if (!attribute.left && attribute.right) {
-      onRightSide.push(attribute.value);
     } else if (attribute.left && attribute.right) {
       onBothSides.push(attribute.value);
     }
@@ -113,7 +104,9 @@ const CalculateKey = (attr, dependencies) => {
       }
     }
   }
-  console.log('kljuc',keys)
+  if (!keys) {
+    keys = [...attr];
+  }
   return keys;
 };
 module.exports = { CalculateKey };

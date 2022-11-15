@@ -5,10 +5,6 @@ const dependencySchema = new mongoose.Schema({
   right: [String],
 });
 
-const tableSchema = new mongoose.Schema({
-  attributes: [String],
-});
-
 const relationSchema = new mongoose.Schema({
   attributes: {
     type: [String],
@@ -30,9 +26,9 @@ const relationSchema = new mongoose.Schema({
       ],
     },
   ],
-  primaryKey: [tableSchema],
-  thirdNF: [tableSchema],
-  boyceNF: [tableSchema],
+  primaryKey: [],
+  thirdNF: [],
+  boyceNF: [],
 });
 
 module.exports = mongoose.model("Relation", relationSchema);

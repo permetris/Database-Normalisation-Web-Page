@@ -1,21 +1,20 @@
-const isTrivialDependencys = (dependency) => {
-  passesRequirements;
+const isTrivialDependency = (dependency) => {
   return dependency.right.every((el) => dependency.left.includes(el));
 };
-const isSuperKeys = (dep, key) => {
+const isSuperKey = (dep, key) => {
   const dependency = dep;
   const primaryKey = key;
 
   primaryKey.every((el) => dependency.left.includes(el));
+  return true;
 };
 const passesRequirements = (dep, pKey) => {
   const dependency = dep;
   const primaryKey = pKey;
-  return isTrivialDependencys(dependency)
-    ? true
-    : isSuperKeys(dependency, primaryKey)
-    ? true
-    : false;
+  const trivialResult = isTrivialDependency(dependency);
+  const superKeyResult = isSuperKey(dependency, primaryKey);
+
+  return trivialResult ? true : superKeyResult ? true : false;
 };
 
 const removeRightSide = (total, rightSide) => {
@@ -67,9 +66,8 @@ const normaliseToBoyce = (notPassed, attributes, dependencies, primaryKey) => {
       result.splice(result.length - 1, 1);
       result.push(s3);
 
-      let found = false; // postavlja found na false, za iducu iteraciju
+      let found = false;
       for (let table of result) {
-        // ako kljuc ne postoji doda se
         if (table.length > primaryKey.length) {
           if (primaryKey.every((el) => table.includes(el))) found = true;
         }
@@ -77,15 +75,15 @@ const normaliseToBoyce = (notPassed, attributes, dependencies, primaryKey) => {
       !found && result.push(primaryKey);
     }
   }
-  console.log("result", result);
+  if (!result) {
+    result = ["Boyce empty"];
+  }
   return result;
 };
 
 const calculateBoyceNormalForm = (relation) => {
-  // Nademo funkcijsku ovisnost koja ne prolazi pravila BCNF
-  // Radimo dekompoziciju po R za tu FO
-
-  const primaryKey = relation.primaryKey[0];
+  const primaryKey = relation.primaryKey;
+  console.log(primaryKey, relation.primaryKey);
 
   for (let dep of relation.dependencies) {
     if (!passesRequirements(dep, primaryKey)) {
